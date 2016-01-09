@@ -73,7 +73,7 @@ conversions:
 
     scala> import scala.language.implicitConversions
     import scala.language.implicitConversions
-
+    
     scala> class A
     defined class A
     
@@ -100,7 +100,6 @@ It is of type `List[Nothing]`:
     scala> List()
     res0: List[Nothing] = List()
 
-
 5.
 
 Because every type is a subtype of `Nothing`.
@@ -117,25 +116,27 @@ The insertion sort iterates each element of a list to build a new sorted list.
 To make things simple we start by showing how to implement the insert sort for
 type `Int` in ascending order:
 
-    def isort(l: List[Int]): List[Int] = {
-      def insert(x: Int, xs: List[Int]): List[Int] = xs match {
-        case Nil => List(x)
-        case y :: ys =>
-          if (x <= y) x :: xs
-          else y :: insert(x, ys)
-      }
-    
-      l match {
-        case Nil => Nil
-        case x :: xs => insert(x, isort(xs))
-      }
-    }
+```scala
+def isort(l: List[Int]): List[Int] = {
+  def insert(x: Int, xs: List[Int]): List[Int] = xs match {
+    case Nil => List(x)
+    case y :: ys =>
+      if (x <= y) x :: xs
+      else y :: insert(x, ys)
+  }
+
+  l match {
+    case Nil => Nil
+    case x :: xs => insert(x, isort(xs))
+  }
+}
+```
 
 The `insert` private method inserts an element in a list in the position that
 should satisfy the ascending order. An example should make this clear:
 
-     scala> insert(2, List(1, 4, 3))
-     res1: List[Int] = List(1, 2, 4, 3)
+    scala> insert(2, List(1, 4, 3))
+    res1: List[Int] = List(1, 2, 4, 3)
 
 In the example `x = 2` is being inserted in the `xs = List(1, 2, 4, 3)` list.
 To satisfy the ascending order, `x = 2` must be placed after any number that is
@@ -150,19 +151,21 @@ The result is a sorted list. Here's an example of execution of this method:
 The algorithm is complete but only works with lists of `Int`. To be able to
 sort a list of any type the method must be generic:
 
-    def isort[T <% Ordered[T]](l: List[T]): List[T] = {
-      def insert(x: T, xs: List[T]): List[T] = xs match {
-        case Nil => List(x)
-        case y :: ys =>
-          if (x <= y) x :: xs
-          else y :: insert(x, ys)
-      }
-  
-      l match {
-        case Nil => Nil
-        case x :: xs => insert(x, isort(xs))
-      }
-    }
+```scala
+def isort[T <% Ordered[T]](l: List[T]): List[T] = {
+  def insert(x: T, xs: List[T]): List[T] = xs match {
+    case Nil => List(x)
+    case y :: ys =>
+      if (x <= y) x :: xs
+      else y :: insert(x, ys)
+  }
+
+  l match {
+    case Nil => Nil
+    case x :: xs => insert(x, isort(xs))
+  }
+}
+```
 
 With these modifications, `isort` can be used with any type as long as that
 type can be ordered. This is achieved by adding `[T <% Ordered[T]]` and
@@ -182,19 +185,21 @@ Now you can sort a list of `Char` as well:
 Finally, to have a fully generic sort method, it should possible to specify how
 we want to order the elements of the list:
 
-    def isort[T](l: List[T])(less: (T, T) => Boolean): List[T] = {
-      def insert(x: T, xs: List[T]): List[T] = xs match {
-        case Nil => List(x)
-        case y :: ys =>
-          if (less(x, y)) x :: xs
-          else y :: insert(x, ys)
-      }
-  
-      l match {
-        case Nil => Nil
-        case x :: xs => insert(x, isort(xs)(less))
-      }
-    }
+```scala
+def isort[T](l: List[T])(less: (T, T) => Boolean): List[T] = {
+  def insert(x: T, xs: List[T]): List[T] = xs match {
+    case Nil => List(x)
+    case y :: ys =>
+      if (less(x, y)) x :: xs
+      else y :: insert(x, ys)
+  }
+
+  l match {
+    case Nil => Nil
+    case x :: xs => insert(x, isort(xs)(less))
+  }
+}
+```
 
 Now `isort` has a curried parameter `less`, which is a function that takes two
 elements of type `T` and returns true if the first element is less than the
@@ -293,10 +298,12 @@ except the first, a reference should suffice.
 
 Here is a possible implementation of `tail`:
 
+    ```scala
     def myTail[T](l: List[T]) = l match {
       case Nil   => Nil
       case x::xs => xs
     }
+    ```
 
 Using the same list in our previous example:
 

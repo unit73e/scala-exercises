@@ -2,21 +2,29 @@
 
 1. How come a list of `Char` can be a list of `Any`?
 
+    ```scala
     List('a', 'b', 'c'): List[Any]
+    ```
 
-2. Why is the following list inferred to be of type `Any`?
+2. Why is the following list infered to be of type `Any`?
 
+    ```scala
     List('a', "b")
+    ``` 
+ 
+3. Why is the following list infered to be of type `Int`?
 
-3. Why is the following list inferred to be of type `Int`?
-
+    ```scala
     List('a', 1)
+    ```
 
 4. What is the type of an empty list?
 
 5. How come an empty list can be a list of `String`?
 
+    ```scala
     List(): List[String]
+    ```
 
 6. Construct a list using `::` and `Nil`
 
@@ -24,7 +32,9 @@
 
 8. Extract the elements of the following list into variables
 
+    ```scala
     List('a', 'b', 'c')
+    ```
 
 9. Why is it possible to pattern match with List(...) and `::`?
 
@@ -62,13 +72,17 @@
 
 26. Get a list of pairs from two lists like the example below
 
+    ```scala
     val list1 = List(1, 2, 3)
     val list2 = List('a', 'b', 'c')
     val result = List((1, 'a'), (2, 'b'), (3, 'c'))
+    ```
 
 27. Get a list of pairs from a list and the corresponding indices
 
 28. Get two lists from a list of pairs like the example below
 
+    ```scala
     val listOfpairs = List((1, 'a'), (2, 'b'), (3, 'c'))
     val result = (List(1, 2, 3), List('a', 'b', 'c'))
+    ```
